@@ -7,6 +7,23 @@ import {
   MinLength,
 } from 'class-validator';
 
+export class UserDto {
+  readonly id?: number;
+
+  @ApiProperty()
+  @IsString()
+  @IsEmail()
+  readonly email: string;
+
+  @ApiProperty()
+  @IsString()
+  readonly password: string;
+
+  @ApiProperty()
+  @IsString()
+  readonly authCode?: string;
+}
+
 export class CreateUserDto {
   @ApiProperty()
   @IsDefined()
@@ -24,6 +41,7 @@ export class CreateUserDto {
   @IsDefined()
   @IsString()
   @MinLength(6)
+  @MaxLength(100)
   password: string;
 }
 
