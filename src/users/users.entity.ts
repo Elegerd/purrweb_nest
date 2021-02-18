@@ -1,6 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  Entity,
+  Column as Col,
+  PrimaryGeneratedColumn,
+  OneToMany,
+} from 'typeorm';
 import { classToPlain, Exclude } from 'class-transformer';
+import { Column } from 'src/columns/columns.entity';
 
 @Entity()
 export class User {
@@ -9,20 +15,24 @@ export class User {
   id: number;
 
   @ApiProperty()
-  @Column({ length: 50 })
+  @Col({ length: 50 })
   name: string;
 
   @ApiProperty()
-  @Column({ length: 50, unique: true })
+  @Col({ length: 50, unique: true })
   email: string;
 
   @Exclude({ toPlainOnly: true })
-  @Column({ length: 100 })
+  @Col({ length: 100 })
   password: string;
 
   @Exclude({ toPlainOnly: true })
-  @Column({ nullable: true })
+  @Col({ nullable: true })
   readonly authCode?: string;
+
+  @ApiPropertyOptional()
+  @OneToMany(() => Column, (column) => column.owner, { cascade: true })
+  columns: Column[];
 
   toJSON() {
     return classToPlain(this);

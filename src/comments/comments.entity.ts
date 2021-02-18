@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Card } from 'src/cards/cards.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+  ManyToOne,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Comment {
@@ -10,4 +18,18 @@ export class Comment {
   @ApiProperty()
   @Column({ length: 250 })
   value: string;
+
+  @ManyToOne(() => Card, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'cardId' })
+  card: Card;
+
+  @ApiProperty({ type: Number })
+  @Column()
+  cardId: Card['id'];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @CreateDateColumn()
+  updatedAt: Date;
 }

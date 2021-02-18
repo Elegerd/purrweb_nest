@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserDto } from './users.dto';
@@ -11,12 +15,20 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  async findAll(): Promise<User[]> {
+    try {
+      return await this.usersRepository.find();
+    } catch (err) {
+      throw new UnprocessableEntityException();
+    }
   }
 
-  findOneByEmail(email: User['email']): Promise<User> {
-    return this.usersRepository.findOne({ email });
+  async findOneByEmail(email: User['email']): Promise<User> {
+    try {
+      return await this.usersRepository.findOneOrFail({ email });
+    } catch (err) {
+      throw new NotFoundException();
+    }
   }
 
   async isExist(email: User['email']): Promise<User> {
@@ -25,7 +37,7 @@ export class UsersService {
   }
 
   async getMany(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this.findAll();
   }
 
   async findOrCreate(userDto: UserDto): Promise<User> {
