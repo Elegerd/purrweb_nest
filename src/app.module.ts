@@ -7,6 +7,9 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { MAILER_EMAIL, MAILER_PASSWORD } from './constants';
+import { ColumnsModule } from './columns/columns.module';
+import { CardsModule } from './cards/cards.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -34,6 +37,9 @@ import { MAILER_EMAIL, MAILER_PASSWORD } from './constants';
     }),
     AuthModule,
     UsersModule,
+    ColumnsModule,
+    CardsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
