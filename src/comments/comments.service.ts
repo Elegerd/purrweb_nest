@@ -42,4 +42,8 @@ export class CommentsService {
   async remove(id: Comment['id']): Promise<void> {
     this.commentsRepository.delete(id);
   }
+
+  async create(entry: Partial<Comment>) {
+    this.commentsRepository.save(entry);
+  }
 }

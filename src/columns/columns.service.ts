@@ -42,4 +42,8 @@ export class ColumnsService {
   async remove(id: Column['id']): Promise<void> {
     this.columnsRepository.delete(id);
   }
+
+  async create(entry: Partial<Column>) {
+    this.columnsRepository.save(entry);
+  }
 }

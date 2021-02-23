@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Card } from 'src/cards/cards.entity';
+import { User } from 'src/users/users.entity';
 import {
   Entity,
   Column,
@@ -18,6 +19,14 @@ export class Comment {
   @ApiProperty()
   @Column({ length: 250 })
   value: string;
+
+  @ManyToOne(() => Comment, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'ownerId' })
+  owner: User;
+
+  @ApiProperty({ type: Number })
+  @Column()
+  ownerId: User['id'];
 
   @ManyToOne(() => Card, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'cardId' })

@@ -23,6 +23,14 @@ export class UsersService {
     }
   }
 
+  async findOneById(id: User['id']): Promise<User> {
+    try {
+      return await this.usersRepository.findOneOrFail(id);
+    } catch (err) {
+      throw new NotFoundException();
+    }
+  }
+
   async findOneByEmail(email: User['email']): Promise<User> {
     try {
       return await this.usersRepository.findOneOrFail({ email });
@@ -47,7 +55,7 @@ export class UsersService {
     return user;
   }
 
-  async create(entry: UserDto): Promise<User> {
+  async create(entry: Partial<User>): Promise<User> {
     return this.usersRepository.save(entry);
   }
 

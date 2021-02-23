@@ -42,4 +42,8 @@ export class CardsService {
   async remove(id: Card['id']): Promise<void> {
     this.cardsRepository.delete(id);
   }
+
+  async create(entry: Partial<Card>) {
+    this.cardsRepository.save(entry);
+  }
 }

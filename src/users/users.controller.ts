@@ -10,7 +10,7 @@ export class UsersController {
   constructor(public userService: UsersService) {}
 
   @Get()
-  @ApiOkResponse({ type: [User] })
+  @ApiOkResponse({ type: User, isArray: true })
   findAll() {
     return this.userService.getMany();
   }
